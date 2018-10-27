@@ -1,0 +1,30 @@
+---
+
+- name: Basic Host Info
+  hosts: linux
+  remote_user: student
+  tasks:
+
+     - name: get hostname
+       shell: osqueryi "select hostname from system_info;"
+       register: output
+
+     - debug: var=output.stdout_lines
+
+     - name: get OS and patch level
+       shell: osqueryi "select name,version,major,minor,patch from os_version"
+       register: output
+
+     - debug: var=output.stdout_lines
+
+     - name: get IP info
+       shell: osqueryi "select interface_addresses.interface,address,mask,mac from interface_addresses join interface_details"
+       register: output
+
+     - debug: var=output.stdout_lines
+
+     - name: get Users
+       shell: osqueryi "select username from users"
+       register: output
+
+     - debug: var=output.stdout_lines
