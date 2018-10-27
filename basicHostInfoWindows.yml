@@ -1,0 +1,35 @@
+---
+- name: windows demo
+  hosts: windows
+  vars:
+        ansible_port: 5986
+        ansible_connection: winrm
+        ansible_user: administrator
+        ansible_password: Password1
+        ansible_winrm_server_cert_validation: ignore
+        ansible_winrm_transport: ntlm
+  tasks:
+
+     - name: get hostname
+       win_command: osqueryi "select hostname from system_info;"
+       register: output
+
+     - debug: var=output.stdout_lines
+
+     - name: get OS and patch level
+       win_command: osqueryi "select name,version,major,minor,patch from os_version"
+       register: output
+
+     - debug: var=output.stdout_lines
+
+     - name: get IP info
+       win_command: osqueryi "select interface_addresses.interface,address,mask,mac from interface_addresses join interface_details"
+       register: output
+
+     - debug: var=output.stdout_lines
+
+     - name: get Users
+       win_command: osqueryi "select username from users"
+       register: output
+
+     - debug: var=output.stdout_lines
