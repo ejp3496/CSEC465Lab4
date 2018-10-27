@@ -1,0 +1,19 @@
+---
+- name: windows demo
+  hosts: windows
+  vars:
+        ansible_port: 5986
+        ansible_connection: winrm
+        ansible_user: administrator
+        ansible_password: Password1
+        ansible_winrm_server_cert_validation: ignore
+        ansible_winrm_transport: ntlm
+  tasks:
+        - name: get chocolatey
+          win_command: powershell Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+
+        - name: install osquery
+          win_command: choco install osquery -y
+          register: output
+
+        - debug: var=output.stdout_lines
