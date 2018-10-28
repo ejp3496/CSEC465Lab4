@@ -1,0 +1,24 @@
+---
+
+- name: Installed Software
+  hosts: Linux
+  remote_user: student
+  tasks:
+  
+    - name: installed server components
+      shell: 
+      register: output
+    
+    - debug: var=output.stdout_lines
+    
+    - name: installed applications
+      shell: osqueryi "select name from rpm_packages;"
+      register: output
+      
+    - debug: var=output.stdout_lines
+    
+    - name: boot software
+      shell: 
+      register: output
+      
+    - debug: var=output.stdout_lines
