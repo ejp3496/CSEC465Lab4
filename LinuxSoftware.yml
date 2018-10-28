@@ -18,7 +18,7 @@
     - debug: var=output.stdout_lines
     
     - name: boot software
-      shell: 
+      shell: osqueryi "select name from startup_items;"
       register: output
       
     - debug: var=output.stdout_lines
