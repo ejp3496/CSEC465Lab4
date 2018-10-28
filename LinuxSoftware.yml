@@ -1,7 +1,7 @@
 ---
 
 - name: Installed Software
-  hosts: Linux
+  hosts: linux
   remote_user: student
   tasks:
   
