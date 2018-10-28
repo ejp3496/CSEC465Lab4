@@ -1,6 +1,6 @@
 ---
 
-- name: Installed Software
+- name: Installed Packages
   hosts: windows
   remote_user: student
   vars:
