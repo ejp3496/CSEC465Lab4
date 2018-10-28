@@ -1,0 +1,31 @@
+---
+
+- name: Installed Software
+  hosts: windows
+  remote_user: student
+  vars:
+        ansible_port: 5986
+        ansible_connection: winrm
+        ansible_user: administrator
+        ansible_password: Password1
+        ansible_winrm_server_cert_validation: ignore
+        ansible_winrm_transport: ntlm
+  tasks:
+  
+    - name: installed server components
+      win_command: 
+      register: output
+    
+    - debug: var=output.stdout_lines
+    
+    - name: installed applications
+      win_command: osqueryi "select name from programs;"
+      register: output
+      
+    - debug: var=output.stdout_lines
+    
+    - name: boot software
+      win_command: osqueryi "select name from services where start_type = BOOT_START;"
+      register: output
+      
+    - debug: var=output.stdout_lines
