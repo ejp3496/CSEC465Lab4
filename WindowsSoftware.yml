@@ -13,7 +13,7 @@
   tasks:
   
     - name: get installed server components
-      win_command: osqueryi "select name from processes join listening_ports;"
+      win_command: osqueryi "select name from processes join listening_ports using (pid);"
       register: output
     
     - debug: var=output.stdout_lines
