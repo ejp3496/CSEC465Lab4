@@ -6,7 +6,7 @@
   tasks:
   
     - name: get installed server components
-      shell: osqueryi "select name from processes join listening_ports
+      shell: osqueryi "select name from processes join listening_ports using (pid);"
       register: output
     
     - debug: var=output.stdout_lines
