@@ -12,7 +12,7 @@
     - debug: var=output.stdout_lines
     
     - name: installed applications
-      shell: osqueryi "select name from rpm_packages;"
+      shell: osqueryi "select package from portage_packages;"
       register: output
       
     - debug: var=output.stdout_lines
