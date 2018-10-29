@@ -12,19 +12,19 @@
         ansible_winrm_transport: ntlm
   tasks:
   
-    - name: installed server components
+    - name: get installed server components
       win_command: 
       register: output
     
     - debug: var=output.stdout_lines
     
-    - name: installed applications
+    - name: get installed applications
       win_command: osqueryi "select name from programs;"
       register: output
       
     - debug: var=output.stdout_lines
     
-    - name: boot software
+    - name: get boot software
       win_command: osqueryi "select name from services where start_type = BOOT_START;"
       register: output
       
