@@ -5,19 +5,19 @@
   remote_user: student
   tasks:
   
-    - name: installed server components
+    - name: get installed server components
       shell: 
       register: output
     
     - debug: var=output.stdout_lines
     
-    - name: installed applications
+    - name: get installed applications
       shell: osqueryi "select package from portage_packages;"
       register: output
       
     - debug: var=output.stdout_lines
     
-    - name: boot software
+    - name: get boot software
       shell: osqueryi "select name from processes;"
       register: output
       
