@@ -1,0 +1,53 @@
+---
+
+- name: Windows Incident Response Data
+  hosts: windows
+  vars:
+        ansible_port: 5986
+        ansible_connection: winrm
+        ansible_user: administrator
+        ansible_password: Password1
+        ansible_winrm_server_cert_validation: ignore
+        ansible_winrm_transport: ntlm
+  tasks:
+
+    - name: Recent User Logons
+      win_shell: C:\ProgramData\osquery\osqueryi "select type, user, time from logged_in_users"
+      register: output
+
+    - debug: var=output.stdout_lines
+
+    - name: Running Processes
+      win_shell: C:\ProgramData\osquery\osqueryi "select pid, name, uid, parent, path, on_disk, total_size, user_time, system_time from processes"
+      register: output
+
+    - debug: var=output.stdout_lines
+
+    - name: Suspicious Outbound Connections
+      win_shell: C:\ProgramData\osquery\osqueryi "select pid, port, protocol, family, address from listening_ports as l where l.port not in (80,443) and l.address not in ('::','0.0.0.0')"
+      register: output
+
+    - debug: var=output.stdout_lines
+
+- name: Linux Incident Response Data
+  hosts: linux
+  remote_user: student
+  tasks:
+
+    - name: Recent User Logons
+      shell: osqueryi "select type, user, time from logged_in_users"
+      register: output
+
+    - debug: var=output.stdout_lines
+
+    - name: Running Processes
+      shell: osqueryi "select pid, name, uid, parent, path, on_disk, total_size, user_time, system_time from processes"
+      register: output
+
+    - debug: var=output.stdout_lines
+
+    - name: Suspicious Outbound Connections
+      shell: osqueryi "select pid, port, protocol, family, address from listening_ports as l where l.port not in (80,443) and l.address not in ('::','0.0.0.0')"
+      register: output
+
+    - debug: var=output.stdout_lines
